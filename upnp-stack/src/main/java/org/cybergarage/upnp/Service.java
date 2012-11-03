@@ -435,7 +435,20 @@ public class Service
 			}
 		}
 		catch (Exception e) {}
-		
+
+		//ms777		I found this necessary to get the correct scpdUrl on Windows / PC
+		try {
+			URL urlLoc = new URL(rootDev.getLocation());
+			URL scpdUrl = new URL(urlLoc.getProtocol(), urlLoc.getHost(), urlLoc.getPort(), scpdURLStr);
+			scpdNode = getSCPDNode(scpdUrl);		
+			if (scpdNode != null) {
+				data.setSCPDNode(scpdNode);
+				return scpdNode;
+			}
+		}
+		catch (Exception e) {}
+		//ms777 end
+
 		String newScpdURLStr = rootDev.getDescriptionFilePath() + HTTP.toRelativeURL(scpdURLStr);
 		try {
 			scpdNode = getSCPDNode(new File(newScpdURLStr));
