@@ -143,6 +143,12 @@ public class ContainerNode extends ContentNode
 		int nodeCnt = getNContentNodes();
 		for (int n=0; n<nodeCnt; n++) {
 			ContentNode cnode = getContentNode(n);
+
+//ms777 new start
+			if (cnode.getID().equals(id)) 
+				return cnode;
+//ms777 new end
+			
 			if (cnode.isContainerNode() == false)
 				continue;
 			ContentNode fnode = ((ContainerNode)cnode).findContentNodeByID(id);

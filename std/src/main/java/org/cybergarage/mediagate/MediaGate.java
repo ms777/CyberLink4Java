@@ -22,7 +22,10 @@ import org.cybergarage.upnp.std.av.server.directory.file.*;
 import org.cybergarage.upnp.std.av.server.directory.mythtv.*;
 import org.cybergarage.mediagate.frame.*;
 import org.cybergarage.mediagate.frame.swing.*;
+import org.cybergarage.upnp.std.av.server.object.ContentNode;
 import org.cybergarage.upnp.std.av.server.object.format.*;
+import org.cybergarage.xml.parser.XercesParser;
+import org.cybergarage.xml.parser.kXML2Parser;
 
 public class MediaGate
 {
@@ -44,6 +47,11 @@ public class MediaGate
     private final static String VERBOSE_OPT_STRING = "-v";
     private final static String FLASH_OPT_STRING = "--flash";
     private static final String CONSOLE_OPT_STRING = "-console";
+    
+    static {
+    	org.cybergarage.upnp.UPnP.setXMLParser(new kXML2Parser());
+//    	org.cybergarage.upnp.UPnP.setXMLParser(new XercesParser());
+    }
 
     ////////////////////////////////////////////////
     // Constructor
@@ -262,7 +270,7 @@ public class MediaGate
 
     public static void main(String args[])
     {
-        Debug.off();
+        Debug.on();
 
         boolean need_gui = true;
         int mode = FILESYS_MODE;
@@ -283,6 +291,12 @@ public class MediaGate
         MediaGate mediaGate = new MediaGate(mode, need_gui);
         debug(mediaGate);
         mediaGate.start();
+        System.out.println("ms777: MediaGate: main end start");
+        ContentDirectory contDir = mediaGate.getMediaServer().getContentDirectory();
+        ContentNode cn = contDir.findContentNodeByID("19");
+        System.out.println("ms777: MediaGate: main: cn: " + cn);
+        
+        System.out.println("ms777: MediaGate: main end end");
     }
 
 }
